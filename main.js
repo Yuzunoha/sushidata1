@@ -14,13 +14,16 @@ const createObjectFromLine = (line) => {
   o.created = a[10];
   return o;
 };
+
+// ミスってる。フィールド名
+const createDataArrDateAsc = (dataArr) => {
+  const dataArrDateAsc = JSON.parse(JSON.stringify(dataArr));
+  dataArrDateAsc.sort((a, b) => (a.date > b.date ? 1 : -1));
+  return dataArrDateAsc;
+};
+
 const datastr = fs.readFileSync('datastr.txt', 'utf8');
 const dataArr = datastr.split('\n');
+const dataArrDateAsc = createDataArrDateAsc(dataArr);
 
-// オブジェクトのディープコピー
-// const b = JSON.parse(JSON.stringify(a));
-
-// 日付が古い順にソート
-// b.sort((a, b) => (a.date > b.date ? 1 : -1));
-
-p(createObjectFromLine(dataArr[77]));
+p(dataArrDateAsc);
