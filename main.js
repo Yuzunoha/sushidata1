@@ -73,6 +73,9 @@ const calcAveUpdateTimeMs = (objArr) => {
   return aveUpdateTimeMs;
 };
 
+/** ミリ秒の値をn時間に変換する */
+const msToHours = (ms) => ms / (1000 * 60 * 60);
+
 /** メイン関数 */
 const main = () => {
   const datastr = fs.readFileSync('datastr.txt', 'utf8');
@@ -81,7 +84,9 @@ const main = () => {
   const arrEverySpan = createArrEverySpan(objArr, 150);
 
   arrEverySpan.forEach((everySpan) => {
-    p(calcAveUpdateTimeMs(everySpan));
+    const ms = calcAveUpdateTimeMs(everySpan);
+    const hours = msToHours(ms);
+    p(hours);
   });
 };
 main();
