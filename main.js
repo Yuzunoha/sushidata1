@@ -27,20 +27,21 @@ const createdObjArrFromLineArr = (lineArr) => {
   return objArr;
 };
 
-/** 配列のディープコピーを作る */
+/** オブジェクトのディープコピーを作る */
 const createDeepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 
 /** 日付の昇順にしたディープコピーを作る */
-const createDataArrDateAsc = (dataArr) => {
-  const dataArrDateAsc = createDeepCopy(dataArr);
-  dataArrDateAsc.sort((a, b) => (a.created > b.created ? 1 : -1));
-  return dataArrDateAsc;
+const createObjArrDateAsc = (objArr) => {
+  const objArrDateAsc = createDeepCopy(objArr);
+  objArrDateAsc.sort((a, b) => (a.created > b.created ? 1 : -1));
+  return objArrDateAsc;
 };
 
 const datastr = fs.readFileSync('datastr.txt', 'utf8');
 const dataArr = datastr.split('\n');
 const objArr = createdObjArrFromLineArr(dataArr);
+const objArrDateAsc = createObjArrDateAsc(objArr);
 
-objArr.forEach((e) => {
+objArrDateAsc.forEach((e) => {
   p(e.created);
 });
