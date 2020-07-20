@@ -37,11 +37,16 @@ const createObjArrDateAsc = (objArr) => {
   return objArrDateAsc;
 };
 
-const datastr = fs.readFileSync('datastr.txt', 'utf8');
-const dataArr = datastr.split('\n');
-const objArr = createdObjArrFromLineArr(dataArr);
-const objArrDateAsc = createObjArrDateAsc(objArr);
+/** メイン関数 */
+const main = () => {
+  const datastr = fs.readFileSync('datastr.txt', 'utf8');
+  const dataArr = datastr.split('\n');
+  const objArr = createdObjArrFromLineArr(dataArr);
+  const objArrDateAsc = createObjArrDateAsc(objArr);
 
-objArrDateAsc.forEach((e) => {
-  p(e.created);
-});
+  objArrDateAsc.forEach((e) => {
+    p(e.created);
+  });
+};
+
+main();
