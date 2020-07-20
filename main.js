@@ -2,7 +2,9 @@
 
 const fs = require('fs');
 const p = console.log;
-const createObjectFromLine = (line) => {
+
+/** データ1行からオブジェクトを作る */
+const createObjFromLine = (line) => {
   const a = line.trim().split(' ');
   const o = {};
   o.rank = Number(a[0].split('位')[0]);
@@ -15,15 +17,30 @@ const createObjectFromLine = (line) => {
   return o;
 };
 
-// ミスってる。フィールド名
+/** 行配列からオブジェクトの配列を作る */
+const createdObjArrFromLineArr = (lineArr) => {
+  const objArr = [];
+  lineArr.forEach((line) => {
+    const obj = createObjFromLine(line);
+    objArr.push(obj);
+  });
+  return objArr;
+};
+
+/** 配列のディープコピーを作る */
+const createDeepCopy = (obj) => JSON.parse(JSON.stringify(obj));
+
+/** 日付の昇順にしたディープコピーを作る */
 const createDataArrDateAsc = (dataArr) => {
-  const dataArrDateAsc = JSON.parse(JSON.stringify(dataArr));
-  dataArrDateAsc.sort((a, b) => (a.date > b.date ? 1 : -1));
+  const dataArrDateAsc = createDeepCopy(dataArr);
+  dataArrDateAsc.sort((a, b) => (a.created > b.created ? 1 : -1));
   return dataArrDateAsc;
 };
 
 const datastr = fs.readFileSync('datastr.txt', 'utf8');
 const dataArr = datastr.split('\n');
-const dataArrDateAsc = createDataArrDateAsc(dataArr);
+const objArr = createdObjArrFromLineArr(dataArr);
 
-p(dataArrDateAsc);
+objArr.forEach((e) => {
+  p(e.created);
+});
