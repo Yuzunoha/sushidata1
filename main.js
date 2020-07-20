@@ -37,15 +37,34 @@ const createObjArrDateAsc = (objArr) => {
   return objArrDateAsc;
 };
 
+/** span刻みの配列の配列を作る */
+const createArrEverySpan = (arr, span) => {
+  const arrEverySpan = [];
+  const maxIdx = arr.length - 1;
+  let startIdx = 0;
+  while (true) {
+    const endIdx = startIdx + span - 1 < maxIdx ? startIdx + span - 1 : maxIdx;
+    const arrSpan = [];
+    for (let i = startIdx; i <= endIdx; i++) {
+      arrSpan.push(arr[i]);
+    }
+    arrEverySpan.push(arrSpan);
+    if (endIdx === maxIdx) {
+      break;
+    }
+    startIdx += span;
+  }
+  return arrEverySpan;
+};
+
 /** メイン関数 */
 const main = () => {
   const datastr = fs.readFileSync('datastr.txt', 'utf8');
-  const dataArr = datastr.split('\n');
+  const dataArr = datastr.trim().split('\n');
   const objArr = createdObjArrFromLineArr(dataArr);
-  const objArrDateAsc = createObjArrDateAsc(objArr);
-
-  objArrDateAsc.forEach((e) => {
-    p(e.created);
+  const arrEverySpan = createArrEverySpan(objArr, 150);
+  arrEverySpan.forEach((e) => {
+    p(e.length);
   });
 };
 
