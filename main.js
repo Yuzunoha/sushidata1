@@ -57,15 +57,31 @@ const createArrEverySpan = (arr, span) => {
   return arrEverySpan;
 };
 
+/** 配列内の日付データの更新間隔の平均値を取得する */
+const calcAveUpdateTimeMs = (objArr) => {
+  // 日付の昇順にした配列を取得
+  const objArrDateAsc = createObjArrDateAsc(objArr);
+  const len = objArrDateAsc.length;
+  let sumDiffMs = 0;
+  for (let i = 0; i <= len - 2; i++) {
+    const leftDate = objArrDateAsc[i].created;
+    const rightDate = objArrDateAsc[i + 1].created;
+    const diffMs = Date.parse(rightDate) - Date.parse(leftDate);
+    sumDiffMs += diffMs;
+  }
+  const aveUpdateTimeMs = Math.floor(sumDiffMs / (len - 1));
+  return aveUpdateTimeMs;
+};
+
 /** メイン関数 */
 const main = () => {
   const datastr = fs.readFileSync('datastr.txt', 'utf8');
   const dataArr = datastr.trim().split('\n');
   const objArr = createdObjArrFromLineArr(dataArr);
   const arrEverySpan = createArrEverySpan(objArr, 150);
-  arrEverySpan.forEach((e) => {
-    p(e.length);
+
+  arrEverySpan.forEach((everySpan) => {
+    p(calcAveUpdateTimeMs(everySpan));
   });
 };
-
 main();
